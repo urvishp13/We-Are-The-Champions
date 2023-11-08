@@ -15,11 +15,20 @@
             <header>
                 <img src="assets/freddie.png" alt="picture of a singer holding a microphone with arm in the air">
                 <h1>We are the Champions</h1>
-                <textarea placeholder="Write your endorsements here"></textarea>
-                <button style="display: block;">Publish</button>
+                <textarea 
+                    id="endorsement-input" 
+                    placeholder="Write your endorsements here"></textarea>
+                <button id="publish-btn">Publish</button>
             </header>
+
+            <section class="endorsements-section" id="endorsements-section">
+                <h2>- Endorsements -</h2>
+                <div id="endorsements">
+                    <!-- dynamically add endorsements here -->
+                </div>
+            </section>
         </div>
 
-        <script src="index.js"></script>
+        <script src="index.js" type="module"></script>
     </body>
 </html>
