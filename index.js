@@ -17,22 +17,32 @@ const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 const endorsementsDB = ref(database, "endorsements")
 
-// when the database resets
-
 publishBtn.addEventListener('click', function() {
     // extract the endorsement from the textarea
     const endorsement = endorsementInputEl.value
 
     // push it to the database
     push(endorsementsDB, endorsement)
-
-    console.log('endorsement pushed')
-
-    // add it to the endorsements section
-    appendEndorsementToEndorsementsSection(endorsement)
-
+    
     // clear it from the textarea
     clearEndorsementInputEl()
+})
+
+// when the database resets
+onValue(endorsementsDB, function(snapshot) {
+    if (snapshot.exists()) {
+        // get the information stored in the database
+        const data = Object.values(snapshot.val())
+
+        // clear the endorsements sections of the previous data (becauase now the snapshot looks different)
+        endorsementsSection.innerHTML = ''
+
+        // for each currently present endorsement
+        data.forEach(endorsement => {
+            // add it to the endorsements section
+            appendEndorsementToEndorsementsSection(endorsement)
+        })
+    }
 })
 
 function appendEndorsementToEndorsementsSection(endorsementText) {
