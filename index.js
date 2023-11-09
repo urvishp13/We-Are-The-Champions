@@ -17,11 +17,12 @@ const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 const endorsementsDB = ref(database, "endorsements")
 
+// when the Publish button in the UI is clicked
 publishBtn.addEventListener('click', function() {
     // extract the endorsement from the textarea
     const endorsement = endorsementInputEl.value
 
-    // push it to the database
+    // push the endorsement to the database
     push(endorsementsDB, endorsement)
     
     // clear it from the textarea
@@ -46,11 +47,12 @@ onValue(endorsementsDB, function(snapshot) {
 })
 
 function appendEndorsementToEndorsementsSection(endorsementText) {
-    endorsementsSection.innerHTML += `
+    const endorsementEl = `
         <div class="endorsement-wrapper">
             <p class="endorsement">${endorsementText}</p>
         </div>
     `
+    endorsementsSection.innerHTML = endorsementEl + endorsementsSection.innerHTML
 }
 
 function clearEndorsementInputEl() {
