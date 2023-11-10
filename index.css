@@ -9,7 +9,7 @@
     --font-size-l: 1.375rem;
     --font-size-md: 1.25rem; 
     --font-size-sm: 0.9375rem;
-    --font-size-xs: 0.75rem; 
+    --font-size-xs: 0.875rem; 
     --font-main: 'Josefin Sans', sans-serif;
     --font-input-text: 'Inter', sans-serif;
 }
@@ -101,7 +101,13 @@ button {
 
 /* /////////////// ENDORSEMENTS /////////////// */
 
-.endorsement-wrapper {
+.endorsement-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 
+        "from        delete"
+        "endorsement endorsement"
+        "to          .....";
     font-size: var(--font-size-xs); /* 0.75rem */
     padding: 1.33em;
     margin: 1.33em 0;
@@ -114,6 +120,28 @@ button {
     background: var(--clr-white);
 }
 
-.endorsement {
+.endorsement-container > *:not(.endorsement) {
     margin: 0;
+    font-weight: 700;
+}
+
+.from {
+    grid-area: from;
+}
+
+.to {
+    grid-area: to;
+}
+
+.endorsement {
+    grid-area: endorsement;
+}
+
+.delete-icon {
+    grid-area: delete;
+}
+
+.delete-icon:hover {
+    color: red;
+    cursor: pointer;
 }

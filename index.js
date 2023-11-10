@@ -9,6 +9,8 @@ const endorsementInputEl = document.getElementById('endorsement-input')
 const endorsementsSection = document.getElementById('endorsements')
 const inputEls = document.getElementsByTagName('input')
 const form = document.getElementById('form')
+const from = document.getElementById('from')
+const to = document.getElementById('to')
 
 const firebaseConfig = {
     databaseURL: 'https://we-are-the-champions-d748d-default-rtdb.firebaseio.com/'
@@ -22,11 +24,13 @@ const endorsementsDB = ref(database, "endorsements")
 form.addEventListener('submit', function(e) {
     e.preventDefault()
 
-    // extract the endorsement from the textarea
+    // extract the endorsement data from the DOM
     const endorsement = endorsementInputEl.value
+    const endorsementFrom = from.value
+    const endorsementTo = to.value
 
     // push the endorsement to the database
-    push(endorsementsDB, endorsement)
+    push(endorsementsDB, {endorsement, endorsementFrom, endorsementTo})
 
     clearTextFields()
 })
@@ -41,17 +45,22 @@ onValue(endorsementsDB, function(snapshot) {
         endorsementsSection.innerHTML = ''
 
         // for each currently present endorsement
-        data.forEach(endorsement => {
+        data.forEach(endorsementContent => {
+            const { endorsement, endorsementFrom, endorsementTo } = endorsementContent
+
             // add it to the endorsements section
-            appendEndorsementToEndorsementsSection(endorsement)
+            appendEndorsementToEndorsementsSection(endorsement, endorsementFrom, endorsementTo)
         })
     }
 })
 
-function appendEndorsementToEndorsementsSection(endorsementText) {
+function appendEndorsementToEndorsementsSection(endorsementText, writtenBy, writtenTo) {
     const endorsementEl = `
-        <div class="endorsement-wrapper">
+        <div class="endorsement-container">
+            <i class="fa-solid fa-x delete-icon"></i>
+            <p class="from">From ${writtenBy}</p>
             <p class="endorsement">${endorsementText}</p>
+            <p class="to">To ${writtenTo}</p>
         </div>
     `
     endorsementsSection.innerHTML = endorsementEl + endorsementsSection.innerHTML
