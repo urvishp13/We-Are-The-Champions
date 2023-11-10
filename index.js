@@ -7,6 +7,7 @@ import { getDatabase,
 
 const endorsementInputEl = document.getElementById('endorsement-input')
 const endorsementsSection = document.getElementById('endorsements')
+const inputEls = document.getElementsByTagName('input')
 const form = document.getElementById('form')
 
 const firebaseConfig = {
@@ -18,12 +19,16 @@ const database = getDatabase(app)
 const endorsementsDB = ref(database, "endorsements")
 
 // when all the required fields in the form have been populated
-form.addEventListener('submit', function() {
+form.addEventListener('submit', function(e) {
+    e.preventDefault()
+
     // extract the endorsement from the textarea
     const endorsement = endorsementInputEl.value
 
     // push the endorsement to the database
     push(endorsementsDB, endorsement)
+
+    clearTextFields()
 })
 
 // when the database resets
@@ -50,4 +55,14 @@ function appendEndorsementToEndorsementsSection(endorsementText) {
         </div>
     `
     endorsementsSection.innerHTML = endorsementEl + endorsementsSection.innerHTML
+}
+
+function clearTextFields() {
+    // clear endorsement textarea
+    endorsementInputEl.value = ''
+    
+    // clear "From" and "To" input fields
+    for (const input of inputEls) {
+        input.value = ''
+    }
 }
