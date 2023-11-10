@@ -53,9 +53,8 @@ h1 {
     margin: .64em 0;
 }
 
-.ux-container {
+form {
     display: flex;
-    /* flex-direction: column; */
     flex-wrap: wrap;
     gap: .56em;
 }
@@ -85,7 +84,7 @@ textarea {
 
 input {
     display: inline-block;
-    width: 10%;
+    width: 10%; /* random small value to be able to be able to apply flex: 1 to get both input fields on one line */
     flex: 1;
     height: 2.5rem;
     text-align: center;
@@ -106,7 +105,7 @@ button {
     font-size: var(--font-size-xs); /* 0.75rem */
     padding: 1.33em;
     margin: 1.33em 0;
-    width: 19.8125rem;
+    max-width: 19.8125rem;
     min-height: 4.5rem;
     text-align: left;
     overflow-wrap: break-word;

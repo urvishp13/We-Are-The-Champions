@@ -6,8 +6,8 @@ import { getDatabase,
 } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js'
 
 const endorsementInputEl = document.getElementById('endorsement-input')
-const publishBtn = document.getElementById('publish-btn')
 const endorsementsSection = document.getElementById('endorsements')
+const form = document.getElementById('form')
 
 const firebaseConfig = {
     databaseURL: 'https://we-are-the-champions-d748d-default-rtdb.firebaseio.com/'
@@ -17,16 +17,13 @@ const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 const endorsementsDB = ref(database, "endorsements")
 
-// when the Publish button in the UI is clicked
-publishBtn.addEventListener('click', function() {
+// when all the required fields in the form have been populated
+form.addEventListener('submit', function() {
     // extract the endorsement from the textarea
     const endorsement = endorsementInputEl.value
 
     // push the endorsement to the database
     push(endorsementsDB, endorsement)
-    
-    // clear it from the textarea
-    clearEndorsementInputEl()
 })
 
 // when the database resets
@@ -53,8 +50,4 @@ function appendEndorsementToEndorsementsSection(endorsementText) {
         </div>
     `
     endorsementsSection.innerHTML = endorsementEl + endorsementsSection.innerHTML
-}
-
-function clearEndorsementInputEl() {
-    endorsementInputEl.value = ''
 }
