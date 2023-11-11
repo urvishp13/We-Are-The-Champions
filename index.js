@@ -8,11 +8,9 @@ import { getDatabase,
 
 const endorsementInputEl = document.getElementById('endorsement-input')
 const endorsementsSection = document.getElementById('endorsements')
-const inputEls = document.getElementsByTagName('input')
 const form = document.getElementById('form')
 const from = document.getElementById('from')
 const to = document.getElementById('to')
-const deleteEndorsementIcons = document.getElementsByClassName('delete-icon')
 
 const firebaseConfig = {
     databaseURL: 'https://we-are-the-champions-d748d-default-rtdb.firebaseio.com/'
@@ -90,7 +88,6 @@ function clearTextFields() {
     endorsementInputEl.value = ''
     
     // clear "From" and "To" input fields
-    for (const input of inputEls) {
-        input.value = ''
-    }
+    from.value = ''
+    to.value = ''
 }
