@@ -2,7 +2,8 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.5.2/firebas
 import { getDatabase, 
          ref, 
          push,
-         onValue
+         onValue,
+         remove
 } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js'
 
 const endorsementInputEl = document.getElementById('endorsement-input')
@@ -11,6 +12,7 @@ const inputEls = document.getElementsByTagName('input')
 const form = document.getElementById('form')
 const from = document.getElementById('from')
 const to = document.getElementById('to')
+const deleteEndorsementIcons = document.getElementsByClassName('delete-icon')
 
 const firebaseConfig = {
     databaseURL: 'https://we-are-the-champions-d748d-default-rtdb.firebaseio.com/'
@@ -25,12 +27,12 @@ form.addEventListener('submit', function(e) {
     e.preventDefault()
 
     // extract the endorsement data from the DOM
-    const endorsement = endorsementInputEl.value
+    const endorsementText = endorsementInputEl.value
     const endorsementFrom = from.value
     const endorsementTo = to.value
 
     // push the endorsement to the database
-    push(endorsementsDB, {endorsement, endorsementFrom, endorsementTo})
+    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo})
 
     clearTextFields()
 })
@@ -39,31 +41,48 @@ form.addEventListener('submit', function(e) {
 onValue(endorsementsDB, function(snapshot) {
     if (snapshot.exists()) {
         // get the information stored in the database
-        const data = Object.values(snapshot.val())
+        const data = Object.entries(snapshot.val())
 
         // clear the endorsements sections of the previous data (becauase now the snapshot looks different)
         endorsementsSection.innerHTML = ''
 
         // for each currently present endorsement
         data.forEach(endorsementContent => {
-            const { endorsement, endorsementFrom, endorsementTo } = endorsementContent
-
             // add it to the endorsements section
-            appendEndorsementToEndorsementsSection(endorsement, endorsementFrom, endorsementTo)
+            appendEndorsementToEndorsementsSection(endorsementContent)
         })
+    } else {
+        endorsementsSection.textContent = "No endorsements written yet"
     }
 })
 
-function appendEndorsementToEndorsementsSection(endorsementText, writtenBy, writtenTo) {
-    const endorsementEl = `
-        <div class="endorsement-container">
-            <i class="fa-solid fa-x delete-icon"></i>
-            <p class="from">From ${writtenBy}</p>
+function appendEndorsementToEndorsementsSection(endorsement) {
+    const endorsementID = endorsement[0]
+    const { endorsementText, endorsementFrom, endorsementTo } = endorsement[1]
+
+    let endorsementEl = `
+        <div class="endorsement-container" id="endorsement-container">
+            <i class="fa-solid fa-x delete-icon" id="delete-icon"></i>
+            <p class="from">From ${endorsementFrom}</p>
             <p class="endorsement">${endorsementText}</p>
-            <p class="to">To ${writtenTo}</p>
+            <p class="to">To ${endorsementTo}</p>
         </div>
     `
-    endorsementsSection.innerHTML = endorsementEl + endorsementsSection.innerHTML
+    // write the endorsementEl to the top of endorsements section
+    // this way is better than using '.innerHTML' because the previous HTML data (and thus event listeners) don't get overwritten (or erased)
+    // on subsequent usages of .innerHTML
+    endorsementsSection.insertAdjacentHTML('afterbegin', endorsementEl)
+
+    // extract the endorsementEl from the DOM to be able to add a click event to the delete icon
+    endorsementEl = document.getElementById('endorsement-container')
+
+    // add a click event listener to the 'delete-icon' in the endorsement
+    endorsementEl.firstElementChild.addEventListener('click', function() {
+        const locationOfEndorsementInDB = ref(database, `endorsements/${endorsementID}`)
+
+        // remove this endorsement from the database and UI
+        remove(locationOfEndorsementInDB)
+    })
 }
 
 function clearTextFields() {

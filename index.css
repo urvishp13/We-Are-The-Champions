@@ -101,6 +101,11 @@ button {
 
 /* /////////////// ENDORSEMENTS /////////////// */
 
+.endorsements {
+    text-align: left;
+    font-family: var(--font-input-text);
+}
+
 .endorsement-container {
     display: grid;
     grid-template-columns: 1fr auto;
