@@ -3,7 +3,8 @@ import { getDatabase,
          ref, 
          push,
          onValue,
-         remove
+         remove,
+         update
 } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 
@@ -15,6 +16,8 @@ const endorsementsSection = document.getElementById('endorsements')
 const form = document.getElementById('form')
 const from = document.getElementById('from')
 const to = document.getElementById('to')
+
+let liked = '' // used to signify if the endorsement has been liked by this user
 
 const firebaseConfig = {
     databaseURL: 'https://we-are-the-champions-d748d-default-rtdb.firebaseio.com/'
@@ -32,9 +35,10 @@ form.addEventListener('submit', function(e) {
     const endorsementText = endorsementInputEl.value
     const endorsementFrom = from.value
     const endorsementTo = to.value
+    const likes = 0
 
     // push the endorsement to the database
-    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo})
+    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo, likes})
 
     clearTextFields()
 })
@@ -61,9 +65,7 @@ onValue(endorsementsDB, function(snapshot) {
 function appendEndorsementToEndorsementsSection(endorsement) {
     const endorsementID = endorsement[0]
     const { endorsementText, endorsementFrom, endorsementTo } = endorsement[1]
-
-    let liked = ''
-    let likeCount = 0
+    let { likes } = endorsement[1]
 
     let endorsementEl = `
         <div class="endorsement-container" id="endorsement-container">
@@ -71,7 +73,7 @@ function appendEndorsementToEndorsementsSection(endorsement) {
             <p class="from">From ${endorsementFrom}</p>
             <p class="endorsement">${endorsementText}</p>
             <p class="to">To ${endorsementTo}</p>
-            <p><i class="fa-solid fa-heart heart-icon"></i>&nbsp;<span>0</span></p>
+            <p class="${liked}"><i class="fa-solid fa-heart heart-icon"></i>&nbsp;<span>${likes}</span></p>
         </div>
     `
     // write the endorsementEl to the top of endorsements section
@@ -82,36 +84,30 @@ function appendEndorsementToEndorsementsSection(endorsement) {
     // extract the endorsementEl from the DOM to be able to add a click event to the delete icon
     endorsementEl = document.getElementById('endorsement-container')
 
-    console.log(endorsementEl)
-
+    const locationOfEndorsementInDB = ref(database, `endorsements/${endorsementID}`)
     // add a click event listener to the 'delete-icon' in the endorsement
     endorsementEl.firstElementChild.addEventListener('click', function() {
-        const locationOfEndorsementInDB = ref(database, `endorsements/${endorsementID}`)
-
         // remove this endorsement from the database and UI
         remove(locationOfEndorsementInDB)
     })
 
     // add a click event to the the 'heart-icon' in the endorsement to be able to increment/decrement the endorsement's like count by 1
     endorsementEl.lastElementChild.addEventListener('click', function() {
-        const heartIcon = this.firstElementChild
-        const likeCountEl = this.lastElementChild
-
         // if this is a unique instance of the app
         if (uuid) {
-            // if the heart hasn't been liked
-            if (!heartIcon.classList.contains('liked')) {
-                // increment like count by 1
-                likeCountEl.textContent++
+            // set/unset liked class
+            if (!liked) { // if the endorsement is not liked, make it so
+                liked = 'liked'
+                likes++
+            } else { // if it is liked and the heart icon is clicked again, unlike it
+                liked = ''
+                likes--
             }
-            // else
-            else {
-                // decrement like count by 1
-                likeCountEl.textContent--
-            }
-            heartIcon.classList.toggle('liked')
-            likeCountEl.classList.toggle('liked')
-            console.log(likeCount)
+
+            // write the change in likes to the database
+            update(locationOfEndorsementInDB, {
+                likes: likes
+            })
         }
     })
 
