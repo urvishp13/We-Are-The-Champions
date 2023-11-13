@@ -112,7 +112,7 @@ button {
     grid-template-areas: 
         "from        delete"
         "endorsement endorsement"
-        "to          .....";
+        "to          like";
     font-size: var(--font-size-xs); /* 0.75rem */
     padding: 1.33em;
     margin: 1.33em 0;
@@ -148,5 +148,18 @@ button {
 
 .delete-icon:hover {
     color: red;
+}
+
+.heart-icon {
+    grid-area: like;
+}
+
+.heart-icon:hover, 
+.liked {
+    color: rgb(220, 0, 220);
+}
+
+.delete-icon:hover,
+.heart-icon:hover {
     cursor: pointer;
 }
