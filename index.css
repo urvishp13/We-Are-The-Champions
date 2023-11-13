@@ -164,3 +164,20 @@ button {
 .heart-icon:hover {
     cursor: pointer;
 }
+
+/* //////////////// MEDIA QUERIES //////////////// */
+
+@media (min-width: 1014px) {
+    
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5em;
+        max-width: 936px;
+    }
+
+    .endorsement-container {
+        max-width: 936px;
+    }
+
+}
