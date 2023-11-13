@@ -25,6 +25,7 @@ Stretch Goals<br>
 ✅ Make a desktop version
 
 My Additions<br>
-✅ Add a delete option to each endorsement
+✅ Add a delete option to each endorsement<br>
+✅ Make the likes persist across different sessions
 
 
