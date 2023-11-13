@@ -5,7 +5,7 @@ message below and write your name and who you want to address it to, and BAM!, y
 
 In addition to writing a message, you can like it  and delete it (or any other one(s) on the dashboard).
 
-Live site: (https://one-community.netlify.app/)[https://one-community.netlify.app/]
+Live site: [https://one-community.netlify.app/](https://one-community.netlify.app/)
 
 <hr>
 
