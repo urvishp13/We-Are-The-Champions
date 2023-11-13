@@ -84,15 +84,18 @@ function appendEndorsementToEndorsementsSection(endorsement) {
     // extract the endorsementEl from the DOM to be able to add a click event to the delete icon
     endorsementEl = document.getElementById('endorsement-container')
 
+    const deleteIcon = endorsementEl.firstElementChild
+    const heartIcon = endorsementEl.lastElementChild
     const locationOfEndorsementInDB = ref(database, `endorsements/${endorsementID}`)
+    
     // add a click event listener to the 'delete-icon' in the endorsement
-    endorsementEl.firstElementChild.addEventListener('click', function() {
+    deleteIcon.addEventListener('click', function() {
         // remove this endorsement from the database and UI
         remove(locationOfEndorsementInDB)
     })
 
     // add a click event to the the 'heart-icon' in the endorsement to be able to increment/decrement the endorsement's like count by 1
-    endorsementEl.lastElementChild.addEventListener('click', function() {
+    heartIcon.addEventListener('click', function() {
         // if this is a unique instance of the app
         if (uuid) {
             // set/unset liked class
