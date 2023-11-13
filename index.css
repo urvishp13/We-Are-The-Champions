@@ -144,6 +144,7 @@ button {
 
 .delete-icon {
     grid-area: delete;
+    justify-self: end;
 }
 
 .delete-icon:hover {
