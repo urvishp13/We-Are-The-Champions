@@ -26,6 +26,6 @@ Stretch Goals<br>
 
 My Additions<br>
 ✅ Add a delete option to each endorsement<br>
-✅ Make the likes persist across different sessions
+✅ Make the likes persist across different browser/device sessions
 
 
