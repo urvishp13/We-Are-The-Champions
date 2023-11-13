@@ -15,13 +15,13 @@ enhancements:
 Requirements<br>
 ✅ Build it from "scratch" (using a Figma file)<br>
 ✅ Follow the design<br>
-✅ Firebase Realtime Database
+✅ Firebase Realtime Database<br>
 ✅ Update in realtime
 
 Stretch Goals<br>
 ✅ Add From and To fields<br>
 ✅ Reverse the order of submitted endorsements<br>
-✅ Add liking ability to each endorsement
+✅ Add liking ability to each endorsement<br>
 ✅ Make a desktop version
 
 My Additions<br>
