@@ -1,21 +1,30 @@
-# cy4kJ2Td
+# We are the Champions
 
-Quick start:
+Do you want to say something positive to a person? Well, lucky for you, the We are the Champions web app allows you to do so. Simply type your 
+message below and write your name and who you want to address it to, and BAM!, you have complimented your intended person. 
 
-```
-$ npm install
-$ npm start
-````
+In addition to writing a message, you can like it  and delete it (or any other one(s) on the dashboard).
 
-Head over to https://vitejs.dev/ to learn more about using vite
-## About Scrimba
+Live site: (https://one-community.netlify.app/)[https://one-community.netlify.app/]
 
-At Scrimba our goal is to create the best possible coding school at the cost of a gym membership! 💜
-If we succeed with this, it will give anyone who wants to become a software developer a realistic shot at succeeding, regardless of where they live and the size of their wallets 🎉
-The Frontend Developer Career Path aims to teach you everything you need to become a Junior Developer, or you could take a deep-dive with one of our advanced courses 🚀
+<hr>
 
-- [Our courses](https://scrimba.com/allcourses)
-- [The Frontend Career Path](https://scrimba.com/learn/frontend)
-- [Become a Scrimba Pro member](https://scrimba.com/pricing)
+This project is from the Scrimba Frontend Development bootcamp with many
+enhancements:
 
-Happy Coding!
+Requirements<br>
+✅ Build it from "scratch" (using a Figma file)<br>
+✅ Follow the design<br>
+✅ Firebase Realtime Database
+✅ Update in realtime
+
+Stretch Goals<br>
+✅ Add From and To fields<br>
+✅ Reverse the order of submitted endorsements<br>
+✅ Add liking ability to each endorsement
+✅ Make a desktop version
+
+My Additions<br>
+✅ Add a delete option to each endorsement
+
+
