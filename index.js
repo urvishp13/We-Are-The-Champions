@@ -9,7 +9,7 @@ import { getDatabase,
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 
 // assign a new uuid to each user of the app
-const user = uuidv4()
+const uuid = uuidv4()
 
 const endorsementInputEl = document.getElementById('endorsement-input')
 const endorsementsSection = document.getElementById('endorsements')
@@ -38,7 +38,7 @@ form.addEventListener('submit', function(e) {
     const likes = 0
 
     // push the endorsement to the database
-    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo, likes, user})
+    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo, likes})
 
     clearTextFields()
 })
@@ -64,19 +64,12 @@ onValue(endorsementsDB, function(snapshot) {
 
 function appendEndorsementToEndorsementsSection(endorsement) {
     const endorsementID = endorsement[0]
-    const { endorsementText, endorsementFrom, endorsementTo , user: endorsementWriter } = endorsement[1]
+    const { endorsementText, endorsementFrom, endorsementTo } = endorsement[1]
     let { likes } = endorsement[1]
-
-    let hideDeleteIcon = ''
-    // if the endorsement is not written by this user
-    if (user !== endorsementWriter) {
-        // do not give this user permission to delete the endorsement
-        hideDeleteIcon = 'hidden'
-    } // else, allow user to delete the endorsement they posted
 
     let endorsementEl = `
         <div class="endorsement-container" id="endorsement-container">
-            <i class="fa-solid fa-x delete-icon ${hideDeleteIcon}" id="delete-icon"></i>
+            <i class="fa-solid fa-x delete-icon" id="delete-icon"></i>
             <p class="from">From ${endorsementFrom}</p>
             <p class="endorsement">${endorsementText}</p>
             <p class="to">To ${endorsementTo}</p>
@@ -97,16 +90,14 @@ function appendEndorsementToEndorsementsSection(endorsement) {
     
     // add a click event listener to the 'delete-icon' in the endorsement
     deleteIcon.addEventListener('click', function() {
-        // if the writer of the endorsement is this user
         // remove this endorsement from the database and UI
         remove(locationOfEndorsementInDB)
-        
     })
 
     // add a click event to the the 'heart-icon' in the endorsement to be able to increment/decrement the endorsement's like count by 1
     heartIcon.addEventListener('click', function() {
         // if this is a unique instance of the app
-        if (user) {
+        if (uuid) {
             // set/unset liked class
             if (!liked) { // if the endorsement is not liked, make it so
                 liked = 'liked'

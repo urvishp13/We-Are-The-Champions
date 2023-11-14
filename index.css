@@ -165,12 +165,6 @@ button {
     cursor: pointer;
 }
 
-/* /////////////// UTILITY CLASSES /////////////// */
-
-.hidden {
-    visibility: hidden;
-}
-
 /* //////////////// MEDIA QUERIES //////////////// */
 
 @media (min-width: 1014px) {
