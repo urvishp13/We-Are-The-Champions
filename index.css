@@ -168,7 +168,7 @@ button {
 /* /////////////// UTILITY CLASSES /////////////// */
 
 .hidden {
-    display: none;
+    visibility: hidden;
 }
 
 /* //////////////// MEDIA QUERIES //////////////// */
