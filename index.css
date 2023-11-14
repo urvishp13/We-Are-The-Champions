@@ -165,6 +165,12 @@ button {
     cursor: pointer;
 }
 
+/* /////////////// UTILITY CLASSES /////////////// */
+
+.hidden {
+    display: none;
+}
+
 /* //////////////// MEDIA QUERIES //////////////// */
 
 @media (min-width: 1014px) {

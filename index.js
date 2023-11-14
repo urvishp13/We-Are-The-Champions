@@ -67,9 +67,21 @@ function appendEndorsementToEndorsementsSection(endorsement) {
     const { endorsementText, endorsementFrom, endorsementTo } = endorsement[1]
     let { likes } = endorsement[1]
 
+    let hideDeleteIcon
+    // if the endorsement is written by this user
+    if (uuid) {
+        // allow them to delete the endorsement they posted
+        hideDeleteIcon = ''
+    }
+    // else 
+    else { 
+        // do not give this user permission to delete the endorsement
+        hideDeleteIcon = 'hidden'
+    }
+
     let endorsementEl = `
         <div class="endorsement-container" id="endorsement-container">
-            <i class="fa-solid fa-x delete-icon" id="delete-icon"></i>
+            <i class="fa-solid fa-x delete-icon ${hideDeleteIcon}" id="delete-icon"></i>
             <p class="from">From ${endorsementFrom}</p>
             <p class="endorsement">${endorsementText}</p>
             <p class="to">To ${endorsementTo}</p>
@@ -90,8 +102,10 @@ function appendEndorsementToEndorsementsSection(endorsement) {
     
     // add a click event listener to the 'delete-icon' in the endorsement
     deleteIcon.addEventListener('click', function() {
+        // if the writer of the endorsement is this user
         // remove this endorsement from the database and UI
         remove(locationOfEndorsementInDB)
+        
     })
 
     // add a click event to the the 'heart-icon' in the endorsement to be able to increment/decrement the endorsement's like count by 1
