@@ -36,9 +36,10 @@ form.addEventListener('submit', function(e) {
     const endorsementFrom = from.value
     const endorsementTo = to.value
     const likes = 0
+    const isLiked = false
 
     // push the endorsement to the database
-    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo, likes})
+    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo, likes, isLiked})
 
     clearTextFields()
 })
@@ -65,7 +66,15 @@ onValue(endorsementsDB, function(snapshot) {
 function appendEndorsementToEndorsementsSection(endorsement) {
     const endorsementID = endorsement[0]
     const { endorsementText, endorsementFrom, endorsementTo } = endorsement[1]
-    let { likes } = endorsement[1]
+    let { likes, isLiked } = endorsement[1]
+
+    // used to indicate if the endorsement is liked in the DOM
+    if (isLiked) {
+        liked = 'liked'
+    }
+    else {
+        liked = ''
+    }
 
     let endorsementEl = `
         <div class="endorsement-container" id="endorsement-container">
@@ -95,26 +104,25 @@ function appendEndorsementToEndorsementsSection(endorsement) {
     })
 
     // add a click event to the the 'heart-icon' in the endorsement to be able to increment/decrement the endorsement's like count by 1
-    heartIcon.addEventListener('click', function() {
+    heartIcon.addEventListener('click', function(e) {
         // if this is a unique instance of the app
         if (uuid) {
             // set/unset liked class
-            if (!liked) { // if the endorsement is not liked, make it so
-                liked = 'liked'
+            if (!isLiked) { // if the endorsement is not liked, make it liked
                 likes++
+                isLiked = true
             } else { // if it is liked and the heart icon is clicked again, unlike it
-                liked = ''
                 likes--
+                isLiked = false
             }
 
             // write the change in likes to the database
             update(locationOfEndorsementInDB, {
-                likes: likes
+                likes: likes,
+                isLiked: isLiked
             })
         }
     })
-
-    
 }
 
 function clearTextFields() {
