@@ -26,6 +26,8 @@ Stretch Goals<br>
 
 My Additions<br>
 ✅ Add a delete option to each endorsement<br>
-✅ Make the likes persist across different browser/device sessions
+✅ Allow only writer of endorsement to delete it<br>
+✅ Make the likes persist across different browser sessions<br>
+✅ Allow each browser session of the site to display the liking of endorsements during THAT session in the UI
 
 
