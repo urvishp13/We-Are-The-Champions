@@ -35,9 +35,10 @@ form.addEventListener('submit', function(e) {
     const endorsementTo = to.value
     const likes = 0
     const isLiked = false // used to signify if endorsement has at least 1 like
+    const endorsementWriter = thisUser
 
     // push the endorsement to the database
-    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo, likes, isLiked})
+    push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo, likes, isLiked, endorsementWriter})
 
     clearTextFields()
 })
@@ -63,11 +64,12 @@ onValue(endorsementsDB, function(snapshot) {
 
 function appendEndorsementToEndorsementsSection(endorsement) {
     const endorsementID = endorsement[0]
-    const { endorsementText, endorsementFrom, endorsementTo } = endorsement[1]
+    const { endorsementText, endorsementFrom, endorsementTo, endorsementWriter } = endorsement[1]
     let { likes, isLiked, whoLiked } = endorsement[1]
 
     let liked // used to signify if the endorsement has been liked in the DOM by THIS user
-    
+    let hide  // used to signify if this endorsement can be deleted by this user
+
     // if this endorsement has been liked at least once AND by this user
     if (isLiked && whoLiked.includes(thisUser)) {
         liked = 'liked' // signify their like in the UI
@@ -82,9 +84,20 @@ function appendEndorsementToEndorsementsSection(endorsement) {
         whoLiked = []
     }
 
+    // if thisUser wrote this endorsement
+    if (thisUser === endorsementWriter) {
+        // allow them to delete this endorsement
+        hide = ''
+    }
+    // else, if thisUser did not write this endorsement
+    else {
+        // don't allow them to delete this endorsement
+        hide = 'hidden'
+    }
+
     let endorsementEl = `
         <div class="endorsement-container" id="endorsement-container">
-            <i class="fa-solid fa-x delete-icon" id="delete-icon"></i>
+            <i class="fa-solid fa-x delete-icon ${hide}" id="delete-icon"></i>
             <p class="from">From ${endorsementFrom}</p>
             <p class="endorsement">${endorsementText}</p>
             <p class="to">To ${endorsementTo}</p>
