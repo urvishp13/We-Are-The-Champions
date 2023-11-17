@@ -67,7 +67,7 @@ function appendEndorsementToEndorsementsSection(endorsement) {
     let { likes, isLiked, whoLiked } = endorsement[1]
 
     let liked // used to signify if the endorsement has been liked in the DOM by THIS user
-    console.log({isLiked}, {whoLiked})
+    
     // if this endorsement has been liked at least once AND by this user
     if (isLiked && whoLiked.includes(thisUser)) {
         liked = 'liked' // signify their like in the UI
@@ -136,7 +136,6 @@ function appendEndorsementToEndorsementsSection(endorsement) {
                 } else { // endorsement has at least one like
                     update(locationOfEndorsementInDB, { 
                         likes: likes,
-                        isLiked: isLiked,
                         whoLiked: whoLiked // update whoLiked array to database
                     }) 
                 }
