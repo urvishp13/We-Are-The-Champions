@@ -9,15 +9,13 @@ import { getDatabase,
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 
 // assign a new uuid to each user of the app
-const uuid = uuidv4()
+const thisUser = uuidv4()
 
 const endorsementInputEl = document.getElementById('endorsement-input')
 const endorsementsSection = document.getElementById('endorsements')
 const form = document.getElementById('form')
 const from = document.getElementById('from')
 const to = document.getElementById('to')
-
-let liked = '' // used to signify if the endorsement has been liked by this user
 
 const firebaseConfig = {
     databaseURL: 'https://we-are-the-champions-d748d-default-rtdb.firebaseio.com/'
@@ -36,7 +34,7 @@ form.addEventListener('submit', function(e) {
     const endorsementFrom = from.value
     const endorsementTo = to.value
     const likes = 0
-    const isLiked = false
+    const isLiked = false // used to signify if endorsement has at least 1 like
 
     // push the endorsement to the database
     push(endorsementsDB, {endorsementText, endorsementFrom, endorsementTo, likes, isLiked})
@@ -66,14 +64,22 @@ onValue(endorsementsDB, function(snapshot) {
 function appendEndorsementToEndorsementsSection(endorsement) {
     const endorsementID = endorsement[0]
     const { endorsementText, endorsementFrom, endorsementTo } = endorsement[1]
-    let { likes, isLiked } = endorsement[1]
+    let { likes, isLiked, whoLiked } = endorsement[1]
 
-    // used to indicate if the endorsement is liked in the DOM
-    if (isLiked) {
-        liked = 'liked'
+    let liked // used to signify if the endorsement has been liked in the DOM by THIS user
+    
+    // if this endorsement has been liked at least once AND by this user
+    if (isLiked && whoLiked.includes(thisUser)) {
+        liked = 'liked' // signify their like in the UI
     }
+    // else if this endorsement is liked but not by this user
+    else if (whoLiked && !whoLiked.includes(thisUser)) {
+        liked = ''
+    }
+    // else, this endorsement hasn't been liked even once, represent this state
     else {
         liked = ''
+        whoLiked = []
     }
 
     let endorsementEl = `
@@ -104,22 +110,30 @@ function appendEndorsementToEndorsementsSection(endorsement) {
     })
 
     // add a click event to the the 'heart-icon' in the endorsement to be able to increment/decrement the endorsement's like count by 1
-    heartIcon.addEventListener('click', function(e) {
+    heartIcon.addEventListener('click', function() {
         // if this is a unique instance of the app
-        if (uuid) {
+        if (thisUser) {
             // set/unset liked class
-            if (!isLiked) { // if the endorsement is not liked, make it liked
+            if (!liked) { // if the endorsement is not liked, make it liked
                 likes++
-                isLiked = true
-            } else { // if it is liked and the heart icon is clicked again, unlike it
+                isLiked = true // endorsement has at least 1 like
+                whoLiked.push(thisUser) // add this user to the whoLiked-this-endorsement collection
+                update(locationOfEndorsementInDB, { whoLiked: whoLiked }) // update (or add) whoLiked array to database
+            } else { // if it is liked and the heart icon is clicked again, unlike this endorsement
                 likes--
-                isLiked = false
+                whoLiked.splice(whoLiked.indexOf(thisUser), whoLiked.indexOf(thisUser)) // remove this user from the whoLiked-this-endorsement collection
+                if (likes === 0) {
+                    isLiked = false // endorsement has no likes
+                    update(locationOfEndorsementInDB, { whoLiked: null }) // remove whoLiked array from database
+                } else { // endorsement has at least one like
+                    update(locationOfEndorsementInDB, { whoLiked: whoLiked }) // update whoLiked array to database
+                }
             }
 
             // write the change in likes to the database
             update(locationOfEndorsementInDB, {
                 likes: likes,
-                isLiked: isLiked
+                isLiked: isLiked,
             })
         }
     })
