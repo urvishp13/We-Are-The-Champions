@@ -131,23 +131,28 @@ function appendEndorsementToEndorsementsSection(endorsement) {
                 likes++
                 isLiked = true // endorsement has at least 1 like
                 whoLiked.push(thisUser) // add this user to the whoLiked-this-endorsement collection
-                update(locationOfEndorsementInDB, { whoLiked: whoLiked }) // update (or add) whoLiked array to database
+                update(locationOfEndorsementInDB, { 
+                    likes: likes,
+                    isLiked: isLiked,
+                    whoLiked: whoLiked // update (or add) whoLiked array to database
+                })
             } else { // if it is liked and the heart icon is clicked again, unlike this endorsement
                 likes--
                 whoLiked.splice(whoLiked.indexOf(thisUser), whoLiked.indexOf(thisUser)) // remove this user from the whoLiked-this-endorsement collection
                 if (likes === 0) {
                     isLiked = false // endorsement has no likes
-                    update(locationOfEndorsementInDB, { whoLiked: null }) // remove whoLiked array from database
+                    update(locationOfEndorsementInDB, { 
+                        likes: likes,
+                        isLiked: isLiked,
+                        whoLiked: null // remove whoLiked array from database
+                    }) 
                 } else { // endorsement has at least one like
-                    update(locationOfEndorsementInDB, { whoLiked: whoLiked }) // update whoLiked array to database
+                    update(locationOfEndorsementInDB, { 
+                        likes: likes,
+                        whoLiked: whoLiked // update whoLiked array to database
+                    }) 
                 }
             }
-
-            // write the change in likes to the database
-            update(locationOfEndorsementInDB, {
-                likes: likes,
-                isLiked: isLiked,
-            })
         }
     })
 }
