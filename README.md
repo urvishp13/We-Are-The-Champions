@@ -1,6 +1,6 @@
 # We are the Champions
 
-Do you want to say something positive to a person? Well, lucky for you, the We are the Champions web app allows you to do so. Simply type your message, write your name and who you want to address it to, and BAM!, you have written a compliment addressed your intended person. In addition to writing the message, you can also like it and delete it. (You have the option to like any message but delete only the ones you've written in that browser session.)
+Do you want to say something positive to a person? Well, lucky for you, the "We are the Champions" web app allows you to do so. Simply type your message, write your name and who you want to address it to, and BAM!, you have written a compliment addressed your intended person on a message board. In addition to writing the message, you can also like it and delete it. (You have the option to like any message but delete only the ones you've written in that browser session.)
 
 ## Table of contents
 
@@ -11,10 +11,8 @@ Do you want to say something positive to a person? Well, lucky for you, the We a
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
 ## Overview
 
@@ -40,13 +38,17 @@ My Additions<br>
 ✅ Make the likes persist across different browser sessions<br>
 ✅ Change the UI to indicate to the user their liked messages
 
+### Screenshot
+
+
+
 ### Links
 
 Live site: [https://one-community.netlify.app/](https://one-community.netlify.app/)
 
 ## My process
 
-Work to make the MVP work before I get into the "Stretch Goals" and "My Additions". Additionally, work on a focus-by-focus process i.e. work on all things HTML, CSS, and JS related to the form section first, then do all the endorsement related content second.
+Make the MVP work before I get into the "Stretch Goals" and "My Additions". Additionally, work on a focus-by-focus process i.e. work on all things HTML, CSS, and JS related to the form section first, then do all the endorsement related content second.
 
 ### Built with
 
@@ -55,3 +57,11 @@ HTML, CSS, Vanilla JS, Firebase Realtime Database
 ### What I learned
 
 When writing to an element's `innerHTML`, everytime it is overwritten, the event listeners previously associated with the elements in it will be removed.
+
+### Useful resources
+
+1. [Info on how to prevent event listeners from being cleared on elements](https://stackoverflow.com/questions/37448622/why-can-event-listeners-stop-working-after-using-element-innerhtml)
+
+## Author
+
+GitHub: [https://github.com/urvishp13](https://github.com/urvishp13)
