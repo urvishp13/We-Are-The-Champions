@@ -40,7 +40,8 @@ My Additions<br>
 
 ### Screenshot
 
-
+![Desktop view](assets/screenshots/desktop-view.png)
+![Mobile view](assets/screenshots/mobile-view.png)
 
 ### Links
 
