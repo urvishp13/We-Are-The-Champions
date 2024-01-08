@@ -30,9 +30,9 @@ form.addEventListener('submit', function(e) {
     e.preventDefault()
 
     // extract the endorsement data from the DOM
-    const endorsementText = endorsementInputEl.value
-    const endorsementFrom = from.value
-    const endorsementTo = to.value
+    const endorsementText = endorsementInputEl.value.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    const endorsementFrom = from.value.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    const endorsementTo = to.value.replace(/</g, "&lt;").replace(/>/g, "&gt;")
     const likes = 0
     const isLiked = false // used to signify if endorsement has at least 1 like
     const endorsementWriter = thisUser
